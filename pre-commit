@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Run gofmt to check formatting
+if ! gofmt -l .; then
+    echo "Go code is not formatted. Please run 'gofmt -w .'"
+    exit 1
+fi
+
+# Run golint to check for linting issues
+if ! golint ./...; then
+    echo "Linting issues found. Please fix them before committing."
+    exit 1
+fi
+
+# Run go vet to check for suspicious constructs
+if ! go vet ./...; then
+    echo "Vet issues found. Please fix them before committing."
+    exit 1
+fi
+
+# Run go test to ensure all tests pass
+if ! go test ./...; then
+    echo "Tests are failing. Please fix them before committing."
+    exit 1
+fi
+
+exit 0
